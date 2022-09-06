@@ -9,14 +9,67 @@ class Administrador{
     public function cadastrar(){
         $cx = new Conexao();
         $cmdSql = 'INSERT INTO administrador(matricula, email, senha, nome) VALUES (:matricula, :email, :senha, :nome)';
+        $this->senha = $this->criptografarSenha($this->senha);
         $dados = [
             ':matricula' => $this->matricula, 
             ':email' => $this->email, 
-            ':senha' => $this->criptografarSenha($this->senha), 
+            ':senha' => $this->senha, 
             ':nome' => $this->nome
         ];
 
         if($cx->insert($cmdSql,$dados)){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public function alterar(){
+        $cx = new Conexao();
+        $cmdSql = 'UPDATE administrador SET email=:email,senha=:senha,nome=:nome WHERE administrador.matricula = :matricula';
+        $this->senha = $this->criptografarSenha($this->senha);
+        $dados = [
+            ':matricula' => $this->matricula, 
+            ':email' => $this->email, 
+            ':senha' => $this->senha, 
+            ':nome' => $this->nome
+        ];
+
+        if($cx->update($cmdSql,$dados)){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public function delete($matricula){
+        $cx = new Conexao();
+        $cmdSql = 'DELETE FROM administrador WHERE matricula = :matricula';
+        
+        $dados = [
+            ':matricula' => $matricula
+        ];
+
+        if($cx->delete($cmdSql,$dados)){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public function alterarSenha(){
+        $cx = new Conexao();
+        $cmdSql = 'UPDATE administrador SET senha=:senha WHERE administrador.matricula = :matricula';
+        $this->senha = $this->criptografarSenha($this->senha);
+        $dados = [
+            ':matricula' => $this->matricula, 
+            ':senha' => $this->senha
+        ];
+
+        if($cx->update($cmdSql,$dados)){
             return true;
         }
         else{
