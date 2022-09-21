@@ -17,4 +17,21 @@
 
 <script>
     $("#teste").click(()=>{console.log('Teste')})
+
+    function cadastrarAluno(matricula,email,senha,nome){
+            var objectJson = {
+                "acao": "cadastrar",
+                "matricula":"",
+                "email":"",
+                "senha":"",
+                "nome":""
+            };
+            console.log(objectJson);
+            var stringJson = JSON.stringify(objectJson); 
+            console.log(stringJson);
+
+            $.post("controller/administrador.php/",stringJson,function(resposta){ 
+                console.log(resposta);
+            });
+        }
 </script>
